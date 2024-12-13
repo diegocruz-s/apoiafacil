@@ -1,0 +1,42 @@
+.containerAuth {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.containerAuth form {
+  width: 40%;
+}
+
+.containerAuth .elementForm {
+  display: flex;
+  flex-direction: column;
+  font-size: 1.2em;
+  gap: .2em;
+  margin-bottom: .6em;
+}
+
+.containerAuth .elementForm label {
+  font-weight: bold;
+}
+
+.containerAuth .elementForm input {
+  padding: .8em;
+  border-radius: .5em;
+  border: 1px solid rgba(100, 108, 255, .3);
+  background-color: #1a1a1a;
+  color: #fff;
+}
+
+.containerAuth .elementForm input:focus {
+  outline: none;
+  color: #fff;
+  border-color: rgb(100, 108, 255);
+}
+
+.containerAuth .elementForm input::placeholder {
+  color: #ddd;
+  font-size: 1.1em;
+}

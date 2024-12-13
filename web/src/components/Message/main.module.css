@@ -1,0 +1,16 @@
+.divMessage {
+  font-size: 1.1em;
+  margin-top: 1em;
+}
+
+.divMessage p::first-letter {
+  text-transform: capitalize;
+}
+
+.divMessage.error p {
+  color: #f00;
+}
+
+.divMessage.success p {
+  color: #0f0;
+}

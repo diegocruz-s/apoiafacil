@@ -1,0 +1,84 @@
+version: '3'
+
+networks:
+  auth_network: 
+    driver: bridge
+
+services:
+  api_container: 
+    build: .
+    volumes:
+      - .:/home/node/api
+    environment:
+      - MONGO_URL=mongo
+    depends_on:
+      - redis_container
+      - mongo
+    networks:
+      - auth_network
+    container_name: api_container
+    command: npm run dev:start
+    ports:
+      - "3333:3333"
+
+  queue_container:
+    build: .
+    container_name: queue_container
+    env_file:
+      - ./.env
+    volumes:
+      - .:/home/node/api
+    depends_on:
+      - redis_container
+      - mongo 
+    networks:
+      - auth_network
+    command: npm run dev:queue
+
+  mongo:
+    image: bitnami/mongodb:latest
+    container_name: mongo
+    restart: always
+    env_file:
+      - ./.env
+    ports: 
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+    networks:
+      - auth_network
+
+  mongo_test:
+    image: bitnami/mongodb:latest
+    container_name: mongo_test
+    restart: always
+    env_file:
+      - ./.env-testing
+    ports: 
+      - "27018:27017"
+    volumes:
+      - mongo_data_test:/data/db
+    networks:
+      - auth_network 
+
+  redis_container: 
+    image: bitnami/redis:latest
+    container_name: redis_container
+    restart: always
+    env_file:
+      - ./.env
+    # environment:
+    #   - ALLOW_EMPTY_PASSWORD=no
+    #   - REDIS_PASSWORD=${REDIS_PASSWORD}
+    ports:
+      - "6379:6379"
+    volumes: 
+      - redis_data:/bitnami/redis/data
+    networks:
+      - auth_network 
+
+
+volumes: 
+  mongo_data:
+  mongo_data_test:
+  redis_data:
